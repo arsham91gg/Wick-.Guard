@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WICK GUARD</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #07110b;
+            color: white;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .box {
+            width: 100%;
+            max-width: 420px;
+            background: #0d1b12;
+            border: 1px solid #1c6b3b;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0,255,100,0.12);
+        }
+
+        h1 {
+            text-align: center;
+            color: #42ff88;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9ca9a0;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c8d3cc;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #285a39;
+            background: #07110b;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input:focus {
+            border-color: #42ff88;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #20c963;
+            color: #041008;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .dashboard {
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .top {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            color: #42ff88;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logout {
+            width: auto;
+            padding: 10px 18px;
+            background: #c93636;
+            color: white;
+        }
+
+        .welcome {
+            max-width: 900px;
+            margin: auto;
+            background: #0d1b12;
+            border: 1px solid #1c6b3b;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            margin-top: 0;
+            color: #42ff88;
+        }
+
+        .cards {
+            max-width: 900px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: #0d1b12;
+            border: 1px solid #1c6b3b;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #42ff88;
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div id="loginPage" class="page">
+
+        <div class="box">
+
+            <h1>WICK GUARD</h1>
+
+            <div class="subtitle">
+                ورود به پنل
+            </div>
+
+            <label for="nameInput">
+                نام شما در ایتا
+            </label>
+
+            <input
+                id="nameInput"
+                type="text"
+                placeholder="مثلاً MoR7gAn"
+                autocomplete="off"
+            >
+
+            <!-- مهم: دکمه مستقیماً تابع login را اجرا می‌کند -->
+            <button type="button" onclick="login()">
+                ورود به WICK GUARD
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="dashboard hidden">
+
+        <div class="top">
+
+            <div class="logo">
+                WICK GUARD
+            </div>
+
+            <button
+                type="button"
+                class="logout"
+                onclick="logout()"
+            >
+                خروج
+            </button>
+
+        </div>
+
+
+        <div class="welcome">
+
+            <h2 id="welcomeText">
+                خوش آمدید
+            </h2>
+
+            <p>
+                به پنل WICK GUARD خوش آمدید.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>پروفایل</h3>
+                <p id="profileName">---</p>
+            </div>
+
+            <div class="card">
+                <h3>رتبه</h3>
+                <p id="profileRank">Member</p>
+            </div>
+
+            <div class="card">
+                <h3>وضعیت</h3>
+                <p>فعال</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function login() {
+
+            var name = document.getElementById("nameInput").value.trim();
+
+            if (name === "") {
+
+                alert("لطفاً نام خود در ایتا را وارد کنید.");
+
+                return;
+            }
+
+            /*
+             * ذخیره نام
+             */
+            localStorage.setItem("wick_name", name);
+
+            /*
+             * تغییر صفحه
+             */
+            document.getElementById("loginPage").classList.add("hidden");
+
+            document.getElementById("dashboard").classList.remove("hidden");
+
+            /*
+             * نمایش اطلاعات
+             */
+            document.getElementById("welcomeText").innerText =
+                "خوش آمدی " + name + " 👋";
+
+            document.getElementById("profileName").innerText =
+                name;
+        }
+
+
+        function logout() {
+
+            localStorage.removeItem("wick_name");
+
+            document.getElementById("dashboard").classList.add("hidden");
+
+            document.getElementById("loginPage").classList.remove("hidden");
+
+            document.getElementById("nameInput").value = "";
+
+        }
+
+
+        /*
+         * اگر قبلاً وارد شده بود،
+         * مستقیماً داشبورد را نشان بده
+         */
+        window.onload = function () {
+
+            var savedName = localStorage.getItem("wick_name");
+
+            if (savedName) {
+
+                document.getElementById("loginPage").classList.add("hidden");
+
+                document.getElementById("dashboard").classList.remove("hidden");
+
+                document.getElementById("welcomeText").innerText =
+                    "خوش آمدی " + savedName + " 👋";
+
+                document.getElementById("profileName").innerText =
+                    savedName;
+            }
+
+        };
+
+    </script>
+
+</body>
+</html>
